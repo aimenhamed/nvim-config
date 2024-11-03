@@ -23,7 +23,11 @@ M.on_attach = function(client, bufnr)
   end
 
   if client.supports_method "textDocument/inlayHint" then
-    vim.lsp.inlay_hint.enable(true, { bufnr })
+    if client.name == "rust_analyzer" then
+      vim.lsp.inlay_hint.enable(false, { bufnr })
+    else
+      vim.lsp.inlay_hint.enable(true, { bufnr })
+    end
   end
 end
 
@@ -53,7 +57,8 @@ function M.config()
     "gopls",
     "prismals",
     "clangd",
-    "tailwindcss"
+    "tailwindcss",
+    "kotlin_language_server"
   }
 
   local handlerVD = function(diagnostic)
